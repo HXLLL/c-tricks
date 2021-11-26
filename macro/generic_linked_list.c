@@ -1,6 +1,6 @@
-/*********************** begin of generic_link_list.h ************************/
-#ifndef GENERIC_LINK_LIST_H
-#define GENERIC_LINK_LIST_H
+/*********************** begin of generic_linked_list.h ************************/
+#ifndef GENERIC_LINKED_LIST_H
+#define GENERIC_LINKED_LIST_H
 
 typedef struct ll_handle_struct_t {
     struct ll_handle_struct_t *next;
@@ -11,8 +11,8 @@ typedef struct ll_handle_struct_t {
  * otherwise return NULL
  */
 #define NEXT(node)                                                             \
-    node->ll.next                                                              \
-        ? ((void *)(node->ll.next) - ((void *)&(node->ll) - (void *)node))     \
+    node->hh.next                                                              \
+        ? ((void *)(node->hh.next) - ((void *)&(node->hh) - (void *)node))     \
         : NULL
 
 /**
@@ -21,8 +21,8 @@ typedef struct ll_handle_struct_t {
  */
 #define INSERT(node, x)                                                        \
     do {                                                                       \
-        x->ll.next = node->ll.next;                                            \
-        node->ll.next = &x->ll;                                                \
+        x->hh.next = node->hh.next;                                            \
+        node->hh.next = &x->hh;                                                \
     } while (0)
 
 /**
@@ -42,8 +42,8 @@ typedef struct ll_handle_struct_t {
  */
 #define DELETE_NEXT(node)                                                      \
     do {                                                                       \
-        ll_handle *nxt = node->ll.next;                                        \
-        node->ll.next = nxt->next;                                              \
+        ll_handle *nxt = node->hh.next;                                        \
+        node->hh.next = nxt->next;                                              \
         nxt->next = NULL;                                                      \
     } while (0)
 
@@ -63,14 +63,14 @@ typedef struct ll_handle_struct_t {
 /**
  * @brief return whether *list* is empty
  */
-#define EMPTY(list) (!list || !list->ll.next)
+#define EMPTY(list) (!list || !list->hh.next)
 
 #endif
 
-/*********************** end of generic_link_list.h ************************/
+/*********************** end of generic_linked_list.h ************************/
 
 /**
- * Below is a sample program, using generic link list to maintain a sorted
+ * Below is a sample program, using generic linked list to maintain a sorted
  * list, while supporting elements insertion and deletion
  **/
 
@@ -80,12 +80,12 @@ typedef struct ll_handle_struct_t {
 
 struct Data1 {
     int x;
-    ll_handle ll;
+    ll_handle hh;
 };
 
 struct Data2 {
     double y;
-    ll_handle ll;
+    ll_handle hh;
 };
 
 int main() {
